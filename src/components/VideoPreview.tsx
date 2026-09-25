@@ -12,11 +12,17 @@ function VideoPreviewInner({ videoId }: { videoId: string | null }) {
 
   if (videoId) {
     if (isPlaying) {
+      const origin =
+        typeof window !== "undefined" ? window.location.origin : "";
+      const embedSrc = `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1${
+        origin ? `&origin=${encodeURIComponent(origin)}` : ""
+      }`;
+
       return (
         <div className="aspect-video w-full overflow-hidden rounded-2xl bg-(--color-video-bg) lg:w-[960px]">
           <iframe
             className="size-full"
-            src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+            src={embedSrc}
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture; web-share"
             referrerPolicy="strict-origin-when-cross-origin"
