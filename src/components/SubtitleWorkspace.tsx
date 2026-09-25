@@ -8,11 +8,13 @@ import { SubtitleList } from "./SubtitleList";
 import { DownloadIcon } from "./icons";
 import { buildSubtitleText, extractVideoId, type SubtitleEntry } from "@/lib/youtube";
 import { DEFAULT_LANGUAGE } from "@/lib/languages";
+import { addHistoryEntry } from "@/lib/history";
 
 export function SubtitleWorkspace() {
   const [url, setUrl] = useState("");
   const [lang, setLang] = useState(DEFAULT_LANGUAGE);
   const [videoId, setVideoId] = useState<string | null>(null);
+  const [videoTitle, setVideoTitle] = useState<string | null>(null);
   const [entries, setEntries] = useState<SubtitleEntry[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -39,6 +41,7 @@ export function SubtitleWorkspace() {
       }
 
       setVideoId(data.videoId);
+      setVideoTitle(data.title ?? null);
       setEntries(data.entries);
     } catch (err) {
       setEntries([]);
@@ -62,6 +65,11 @@ export function SubtitleWorkspace() {
     anchor.download = `subtitle-${videoId ?? "video"}-${lang}.txt`;
     anchor.click();
     URL.revokeObjectURL(downloadUrl);
+
+    addHistoryEntry({
+      title: videoTitle ?? `[${videoId}]`,
+      url: url || `https://www.youtube.com/watch?v=${videoId}`,
+    });
   }
 
   return (
