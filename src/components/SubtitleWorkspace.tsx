@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { SubtitleForm } from "./SubtitleForm";
 import { VideoPreview } from "./VideoPreview";
 import { LanguageSelect } from "./LanguageSelect";
@@ -16,6 +16,11 @@ export function SubtitleWorkspace() {
   const [entries, setEntries] = useState<SubtitleEntry[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const previewVideoId = useMemo(
+    () => extractVideoId(url) ?? videoId,
+    [url, videoId],
+  );
 
   async function handleFetchSubtitles() {
     const id = extractVideoId(url);
@@ -80,7 +85,7 @@ export function SubtitleWorkspace() {
       )}
 
       <div className="flex flex-col gap-6 lg:gap-8">
-        <VideoPreview videoId={videoId} />
+        <VideoPreview videoId={previewVideoId} />
 
         <section className="flex flex-col gap-3.5 rounded-2xl border border-(--color-border) bg-(--color-surface) px-4 py-[18px] lg:flex-row lg:gap-7 lg:p-6">
           <div className="flex flex-1 flex-col gap-3.5">
