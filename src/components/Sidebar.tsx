@@ -5,8 +5,6 @@ import { usePathname } from "next/navigation";
 const MENU_ITEMS = [
   { label: "자막 다운로드", href: "/" },
   { label: "최근 기록", href: "/history" },
-  { label: "사용 방법", href: "/how-to-use" },
-  { label: "자주 묻는 질문", href: "/faq" },
 ];
 
 export function Sidebar() {
