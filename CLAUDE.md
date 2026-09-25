@@ -1,6 +1,6 @@
 # youtube-subtitle-downloader
 
-한가지 작업이 완료 될 때 마다 commit & push.
+한가지 작업이 완료 될 때 마다 commit & push 후 PR 생성.
 
 각 기능별로 branch 나눠서 작업.
 
