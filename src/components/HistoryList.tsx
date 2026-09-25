@@ -1,7 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { formatHistoryDate, getHistory, type HistoryEntry } from "@/lib/history";
+import {
+  formatHistoryDate,
+  getHistory,
+  type HistoryEntry,
+} from "@/lib/history";
 import { DownloadIcon } from "./icons";
 
 export function HistoryList() {

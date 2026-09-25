@@ -6,7 +6,11 @@ import { VideoPreview } from "./VideoPreview";
 import { LanguageSelect } from "./LanguageSelect";
 import { SubtitleList } from "./SubtitleList";
 import { DownloadIcon } from "./icons";
-import { buildSubtitleText, extractVideoId, type SubtitleEntry } from "@/lib/youtube";
+import {
+  buildSubtitleText,
+  extractVideoId,
+  type SubtitleEntry,
+} from "@/lib/youtube";
 import { DEFAULT_LANGUAGE } from "@/lib/languages";
 import { addHistoryEntry } from "@/lib/history";
 
