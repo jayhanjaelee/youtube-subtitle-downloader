@@ -1,17 +1,49 @@
+"use client";
+
+import { useState } from "react";
 import { PlayIcon } from "./icons";
 
 export function VideoPreview({ videoId }: { videoId: string | null }) {
+  return <VideoPreviewInner key={videoId} videoId={videoId} />;
+}
+
+function VideoPreviewInner({ videoId }: { videoId: string | null }) {
+  const [isPlaying, setIsPlaying] = useState(false);
+
   if (videoId) {
+    if (isPlaying) {
+      return (
+        <div className="aspect-video w-full overflow-hidden rounded-2xl bg-(--color-video-bg) lg:w-[960px]">
+          <iframe
+            className="size-full"
+            src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      );
+    }
+
     return (
-      <div className="aspect-video w-full overflow-hidden rounded-2xl bg-(--color-video-bg) lg:w-[960px]">
-        <iframe
-          className="size-full"
-          src={`https://www.youtube.com/embed/${videoId}`}
-          title="YouTube video player"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
+      <button
+        type="button"
+        onClick={() => setIsPlaying(true)}
+        aria-label="Play video"
+        className="group relative aspect-video w-full overflow-hidden rounded-2xl bg-(--color-video-bg) lg:w-[960px]"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`}
+          alt="Video thumbnail"
+          className="size-full object-cover"
         />
-      </div>
+        <span className="absolute inset-0 flex items-center justify-center bg-black/20 transition-colors group-hover:bg-black/35">
+          <span className="flex size-14 items-center justify-center rounded-full bg-white/14 lg:size-19">
+            <PlayIcon className="size-6 text-white lg:size-8" />
+          </span>
+        </span>
+      </button>
     );
   }
 
