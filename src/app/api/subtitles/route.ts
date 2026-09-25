@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { YoutubeTranscript } from "youtube-transcript";
+import {
+  YoutubeTranscript,
+  YoutubeTranscriptNotAvailableLanguageError,
+} from "youtube-transcript";
 import { extractVideoId } from "@/lib/youtube";
 
 async function fetchVideoTitle(videoId: string): Promise<string | null> {
@@ -31,9 +34,17 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const transcript = await YoutubeTranscript.fetchTranscript(videoId, {
-      lang,
-    });
+    let transcript;
+    try {
+      transcript = await YoutubeTranscript.fetchTranscript(videoId, { lang });
+    } catch (error) {
+      // 요청한 언어의 자막이 없는 경우(예: 자동 생성 자막만 존재), 이용 가능한 자막으로 대체
+      if (error instanceof YoutubeTranscriptNotAvailableLanguageError && lang) {
+        transcript = await YoutubeTranscript.fetchTranscript(videoId);
+      } else {
+        throw error;
+      }
+    }
 
     const entries = transcript.map((item) => ({
       start: item.offset / 1000,
